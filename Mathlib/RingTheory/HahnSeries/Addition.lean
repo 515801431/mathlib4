@@ -3,14 +3,16 @@ Copyright (c) 2021 Aaron Anderson. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Aaron Anderson
 -/
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Algebra.Group.Pi.Lemmas
-import Mathlib.Algebra.Group.Support
-import Mathlib.Algebra.Module.Basic
-import Mathlib.Algebra.Module.LinearMap.Defs
-import Mathlib.Data.Finsupp.SMul
-import Mathlib.RingTheory.HahnSeries.Basic
-import Mathlib.Tactic.FastInstance
+module
+
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Algebra.Group.Pi.Lemmas
+public import Mathlib.Algebra.Group.Support
+public import Mathlib.Algebra.Module.Basic
+public import Mathlib.Algebra.Module.LinearMap.Defs
+public import Mathlib.Data.Finsupp.SMul
+public import Mathlib.RingTheory.HahnSeries.Basic
+public import Mathlib.Tactic.FastInstance
 
 /-!
 # Additive properties of Hahn series
@@ -25,6 +27,8 @@ coefficients in `R`, whose supports are partially well-ordered. With further str
 ## References
 - [J. van der Hoeven, *Operators on Generalized Power Series*][van_der_hoeven]
 -/
+
+@[expose] public section
 
 
 open Finset Function
@@ -169,7 +173,7 @@ lemma addOppositeEquiv_leadingCoeff (x : HahnSeries Γ Rᵃᵒᵖ) :
   · simp
   simp only [ne_eq, AddOpposite.unop_eq_zero_iff, EmbeddingLike.map_eq_zero_iff, hx,
     not_false_eq_true, leadingCoeff_of_ne_zero, addOppositeEquiv_orderTop]
-  rfl
+  simp [addOppositeEquiv]
 
 @[simp]
 lemma addOppositeEquiv_symm_leadingCoeff (x : (HahnSeries Γ R)ᵃᵒᵖ) :
@@ -427,7 +431,6 @@ section DistribMulAction
 variable [PartialOrder Γ] {V : Type*} [Monoid R] [AddMonoid V] [DistribMulAction R V]
 
 instance : DistribMulAction R (HahnSeries Γ V) where
-  smul := (· • ·)
   one_smul _ := by
     ext
     simp
